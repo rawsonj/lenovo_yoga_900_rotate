@@ -38,16 +38,10 @@ def read_accel():
 
 def choose_state():
     '''
-    if y is between 65000 - 700, rolled over at the 65535 point,
-    we should take a "right" orientation.
-    The 0 point appears to be straight up-and-down for this axis.
-    Likely, the accelerometer is oriented the other direction.
+    When the accelerometer is below the 65000 mark, we're basically
+    facing that direction and it's a really stable value.
 
-    If 64000 < y < 65000 => "normal".
-
-    If y < 65000 and x is between 65000 - 700 => "inverted".
-
-    Finally, we don't handle "left" right now. It doesn't
+    We don't handle "left" right now. It doesn't
     make sense really since the power and rotation-freeze buttons
     are on that side for the Yoga 900.
 
@@ -74,6 +68,7 @@ def rotate(state):
     # TODO: Disable the touchpad if the keyboard is flipped
     # to behind the screen, since it also makes sense not
     # to have that input if we're being a tablet.
+    # This is apparently harder than what it sounds on the yoga.
 
     # Set the screen orientation.
     check_call(['xrandr', '-o', state])
