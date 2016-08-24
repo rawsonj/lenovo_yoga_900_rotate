@@ -36,7 +36,7 @@ def read_accel():
     return axis_vals
 
 
-def choose_state():
+def choose_state(last_state):
     '''
     When the accelerometer is below the 65000 mark, we're basically
     facing that direction and it's a really stable value.
@@ -50,9 +50,11 @@ def choose_state():
     # Get accelerator values
     x, y, z = read_accel()
 
-    if 64700 > x and x > 64000:
+    if 65000 > x and x > 64000:
         return "right"
-    elif 64600 > z and z > 64000 or 65500 > y and y > 64000:
+    elif 64700 > z and z > 64000:
+        return last_state
+    elif 65500 > y and y > 64000:
         return "normal"
     else:
         return "inverted"
@@ -90,7 +92,7 @@ if __name__ == '__main__':
     current_state = 'normal'
 
     while True:
-        next_state = choose_state()
+        next_state = choose_state(current_state)
 
         if current_state != next_state:
             current_state = next_state
