@@ -31,7 +31,6 @@ def read_accel():
     axis_vals = []
     for axis in ['x', 'y', 'z']:
         with open(path.join(basedir, 'in_accel_' + axis + '_raw')) as fd:
-            fd.seek(0)
             axis_vals.append(float(fd.read()))
 
     return axis_vals
